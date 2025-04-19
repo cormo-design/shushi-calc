@@ -1,3 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>収支計算</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+input[type="number"], input[type="text"] {
+    width: 100px;
+    text-align: left;
+    margin-right: 5px;
+}
+.clear-btn {
+    padding: 2px 6px;
+    font-size: 12px;
+    margin-left: 2px;
+}
+label {
+    display: inline-block;
+    width: 120px;
+    text-align: left;
+}
+.output {
+    text-align: center;
+    font-family: monospace;
+    white-space: pre;
+}
+.output-line {
+    display: block;
+    text-align: left;
+    margin: 2px auto;
+    width: fit-content;
+}
 
-<!-- saved from url=(0146)file:///C:/Users/hrpkh/AppData/Local/Packages/C27EB4BA.DROPBOX_xbfy0k16fey96/LocalState/users/1257826497/FilesCache/97/syuushi_mobile_aligned.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="color-scheme" content="light dark"></head><body><div class="line-gutter-backdrop"></div><form autocomplete="off"><label class="line-wrap-control">行の折り返し<input type="checkbox" aria-label="行の折り返し"></label></form><table><tbody><tr><td class="line-number" value="1"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="2"></td><td class="line-content"><span class="html-doctype">&lt;!DOCTYPE html&gt;</span></td></tr><tr><td class="line-number" value="3"></td><td class="line-content"><span class="html-tag">&lt;html <span class="html-attribute-name">lang</span>="<span class="html-attribute-value">ja</span>"&gt;</span></td></tr><tr><td class="line-number" value="4"></td><td class="line-content"><span class="html-tag">&lt;head&gt;</span></td></tr><tr><td class="line-number" value="5"></td><td class="line-content">    <span class="html-tag">&lt;meta <span class="html-attribute-name">charset</span>="<span class="html-attribute-value">UTF-8</span>"&gt;</span></td></tr><tr><td class="line-number" value="6"></td><td class="line-content">    <span class="html-tag">&lt;title&gt;</span>収支計算<span class="html-tag">&lt;/title&gt;</span></td></tr><tr><td class="line-number" value="7"></td><td class="line-content">    <span class="html-tag">&lt;meta <span class="html-attribute-name">name</span>="<span class="html-attribute-value">viewport</span>" <span class="html-attribute-name">content</span>="<span class="html-attribute-value">width=device-width, initial-scale=1.0</span>"&gt;</span></td></tr><tr><td class="line-number" value="8"></td><td class="line-content">    <span class="html-tag">&lt;style&gt;</span></td></tr><tr><td class="line-number" value="9"></td><td class="line-content">input[type="number"], input[type="text"] {</td></tr><tr><td class="line-number" value="10"></td><td class="line-content">    width: 100px;</td></tr><tr><td class="line-number" value="11"></td><td class="line-content">    text-align: left;</td></tr><tr><td class="line-number" value="12"></td><td class="line-content">    margin-right: 5px;</td></tr><tr><td class="line-number" value="13"></td><td class="line-content">}</td></tr><tr><td class="line-number" value="14"></td><td class="line-content">.clear-btn {</td></tr><tr><td class="line-number" value="15"></td><td class="line-content">    padding: 2px 6px;</td></tr><tr><td class="line-number" value="16"></td><td class="line-content">    font-size: 12px;</td></tr><tr><td class="line-number" value="17"></td><td class="line-content">    margin-left: 2px;</td></tr><tr><td class="line-number" value="18"></td><td class="line-content">}</td></tr><tr><td class="line-number" value="19"></td><td class="line-content">label {</td></tr><tr><td class="line-number" value="20"></td><td class="line-content">    display: inline-block;</td></tr><tr><td class="line-number" value="21"></td><td class="line-content">    width: 120px;</td></tr><tr><td class="line-number" value="22"></td><td class="line-content">    text-align: left;</td></tr><tr><td class="line-number" value="23"></td><td class="line-content">}</td></tr><tr><td class="line-number" value="24"></td><td class="line-content">.output {</td></tr><tr><td class="line-number" value="25"></td><td class="line-content">    text-align: center;</td></tr><tr><td class="line-number" value="26"></td><td class="line-content">    font-family: monospace;</td></tr><tr><td class="line-number" value="27"></td><td class="line-content">    white-space: pre;</td></tr><tr><td class="line-number" value="28"></td><td class="line-content">}</td></tr><tr><td class="line-number" value="29"></td><td class="line-content">.output-line {</td></tr><tr><td class="line-number" value="30"></td><td class="line-content">    display: block;</td></tr><tr><td class="line-number" value="31"></td><td class="line-content">    text-align: left;</td></tr><tr><td class="line-number" value="32"></td><td class="line-content">    margin: 2px auto;</td></tr><tr><td class="line-number" value="33"></td><td class="line-content">    width: fit-content;</td></tr><tr><td class="line-number" value="34"></td><td class="line-content">}</td></tr><tr><td class="line-number" value="35"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="36"></td><td class="line-content">        body {</td></tr><tr><td class="line-number" value="37"></td><td class="line-content">            font-family: sans-serif;</td></tr><tr><td class="line-number" value="38"></td><td class="line-content">            margin: 10px;</td></tr><tr><td class="line-number" value="39"></td><td class="line-content">            padding: 0;</td></tr><tr><td class="line-number" value="40"></td><td class="line-content">            background-color: #f5f5f5;</td></tr><tr><td class="line-number" value="41"></td><td class="line-content">        }</td></tr><tr><td class="line-number" value="42"></td><td class="line-content">        h1 {</td></tr><tr><td class="line-number" value="43"></td><td class="line-content">            font-size: 20px;</td></tr><tr><td class="line-number" value="44"></td><td class="line-content">            text-align: center;</td></tr><tr><td class="line-number" value="45"></td><td class="line-content">            margin-bottom: 10px;</td></tr><tr><td class="line-number" value="46"></td><td class="line-content">        }</td></tr><tr><td class="line-number" value="47"></td><td class="line-content">        .container {</td></tr><tr><td class="line-number" value="48"></td><td class="line-content">            display: flex;</td></tr><tr><td class="line-number" value="49"></td><td class="line-content">            flex-direction: column;</td></tr><tr><td class="line-number" value="50"></td><td class="line-content">            gap: 8px;</td></tr><tr><td class="line-number" value="51"></td><td class="line-content">            max-width: 100%;</td></tr><tr><td class="line-number" value="52"></td><td class="line-content">            overflow-x: hidden;</td></tr><tr><td class="line-number" value="53"></td><td class="line-content">        }</td></tr><tr><td class="line-number" value="54"></td><td class="line-content">        .row {</td></tr><tr><td class="line-number" value="55"></td><td class="line-content">            display: flex;</td></tr><tr><td class="line-number" value="56"></td><td class="line-content">            justify-content: space-between;</td></tr><tr><td class="line-number" value="57"></td><td class="line-content">            align-items: center;</td></tr><tr><td class="line-number" value="58"></td><td class="line-content">            gap: 5px;</td></tr><tr><td class="line-number" value="59"></td><td class="line-content">            font-size: 14px;</td></tr><tr><td class="line-number" value="60"></td><td class="line-content">        }</td></tr><tr><td class="line-number" value="61"></td><td class="line-content">        .row label {</td></tr><tr><td class="line-number" value="62"></td><td class="line-content">            white-space: nowrap;</td></tr><tr><td class="line-number" value="63"></td><td class="line-content">            flex-shrink: 0;</td></tr><tr><td class="line-number" value="64"></td><td class="line-content">        }</td></tr><tr><td class="line-number" value="65"></td><td class="line-content">        .row input[type="number"] {</td></tr><tr><td class="line-number" value="66"></td><td class="line-content">            width: 100px;</td></tr><tr><td class="line-number" value="67"></td><td class="line-content">            padding: 2px;</td></tr><tr><td class="line-number" value="68"></td><td class="line-content">            font-size: 14px;</td></tr><tr><td class="line-number" value="69"></td><td class="line-content">        }</td></tr><tr><td class="line-number" value="70"></td><td class="line-content">        .clear-btn {</td></tr><tr><td class="line-number" value="71"></td><td class="line-content">            padding: 0 6px;</td></tr><tr><td class="line-number" value="72"></td><td class="line-content">            font-size: 12px;</td></tr><tr><td class="line-number" value="73"></td><td class="line-content">            cursor: pointer;</td></tr><tr><td class="line-number" value="74"></td><td class="line-content">            background-color: #ccc;</td></tr><tr><td class="line-number" value="75"></td><td class="line-content">            border: none;</td></tr><tr><td class="line-number" value="76"></td><td class="line-content">            border-radius: 3px;</td></tr><tr><td class="line-number" value="77"></td><td class="line-content">        }</td></tr><tr><td class="line-number" value="78"></td><td class="line-content">        button {</td></tr><tr><td class="line-number" value="79"></td><td class="line-content">            padding: 8px;</td></tr><tr><td class="line-number" value="80"></td><td class="line-content">            font-size: 16px;</td></tr><tr><td class="line-number" value="81"></td><td class="line-content">            background-color: #007bff;</td></tr><tr><td class="line-number" value="82"></td><td class="line-content">            color: white;</td></tr><tr><td class="line-number" value="83"></td><td class="line-content">            border: none;</td></tr><tr><td class="line-number" value="84"></td><td class="line-content">            border-radius: 5px;</td></tr><tr><td class="line-number" value="85"></td><td class="line-content">            margin: 10px 0;</td></tr><tr><td class="line-number" value="86"></td><td class="line-content">        }</td></tr><tr><td class="line-number" value="87"></td><td class="line-content">        .results {</td></tr><tr><td class="line-number" value="88"></td><td class="line-content">            font-size: 14px;</td></tr><tr><td class="line-number" value="89"></td><td class="line-content">            background: white;</td></tr><tr><td class="line-number" value="90"></td><td class="line-content">            padding: 10px;</td></tr><tr><td class="line-number" value="91"></td><td class="line-content">            border-radius: 5px;</td></tr><tr><td class="line-number" value="92"></td><td class="line-content">        }</td></tr><tr><td class="line-number" value="93"></td><td class="line-content">    <span class="html-tag">&lt;/style&gt;</span></td></tr><tr><td class="line-number" value="94"></td><td class="line-content"><span class="html-tag">&lt;/head&gt;</span></td></tr><tr><td class="line-number" value="95"></td><td class="line-content"><span class="html-tag">&lt;body&gt;</span></td></tr><tr><td class="line-number" value="96"></td><td class="line-content">    <span class="html-tag">&lt;h1&gt;</span>収支計算<span class="html-tag">&lt;/h1&gt;</span></td></tr><tr><td class="line-number" value="97"></td><td class="line-content">    <span class="html-tag">&lt;div <span class="html-attribute-name">class</span>="<span class="html-attribute-value">container</span>"&gt;</span></td></tr><tr><td class="line-number" value="98"></td><td class="line-content">        <span class="html-tag">&lt;div <span class="html-attribute-name">class</span>="<span class="html-attribute-value">row</span>"&gt;</span><span class="html-tag">&lt;label&gt;</span>物件価格<span class="html-tag">&lt;/label&gt;</span><span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">number</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">propertyPrice</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">60000000</span>"&gt;</span><span class="html-tag">&lt;button <span class="html-attribute-name">class</span>="<span class="html-attribute-value">clear-btn</span>" <span class="html-attribute-name">onclick</span>="<span class="html-attribute-value">clearInput('propertyPrice')</span>"&gt;</span>×<span class="html-tag">&lt;/button&gt;</span><span class="html-tag">&lt;/div&gt;</span></td></tr><tr><td class="line-number" value="99"></td><td class="line-content">        <span class="html-tag">&lt;div <span class="html-attribute-name">class</span>="<span class="html-attribute-value">row</span>"&gt;</span><span class="html-tag">&lt;label&gt;</span>年間想定年収<span class="html-tag">&lt;/label&gt;</span><span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">number</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">annualIncome</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">7592400</span>"&gt;</span><span class="html-tag">&lt;button <span class="html-attribute-name">class</span>="<span class="html-attribute-value">clear-btn</span>" <span class="html-attribute-name">onclick</span>="<span class="html-attribute-value">clearInput('annualIncome')</span>"&gt;</span>×<span class="html-tag">&lt;/button&gt;</span><span class="html-tag">&lt;/div&gt;</span></td></tr><tr><td class="line-number" value="100"></td><td class="line-content">        <span class="html-tag">&lt;div <span class="html-attribute-name">class</span>="<span class="html-attribute-value">row</span>"&gt;</span><span class="html-tag">&lt;label&gt;</span>自己資金<span class="html-tag">&lt;/label&gt;</span><span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">number</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">ownCapital</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">5000000</span>"&gt;</span><span class="html-tag">&lt;button <span class="html-attribute-name">class</span>="<span class="html-attribute-value">clear-btn</span>" <span class="html-attribute-name">onclick</span>="<span class="html-attribute-value">clearInput('ownCapital')</span>"&gt;</span>×<span class="html-tag">&lt;/button&gt;</span><span class="html-tag">&lt;/div&gt;</span></td></tr><tr><td class="line-number" value="101"></td><td class="line-content">        <span class="html-tag">&lt;div <span class="html-attribute-name">class</span>="<span class="html-attribute-value">row</span>"&gt;</span><span class="html-tag">&lt;label&gt;</span>空室率 (%)<span class="html-tag">&lt;/label&gt;</span><span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">number</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">vacancyRate</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">10</span>"&gt;</span><span class="html-tag">&lt;button <span class="html-attribute-name">class</span>="<span class="html-attribute-value">clear-btn</span>" <span class="html-attribute-name">onclick</span>="<span class="html-attribute-value">clearInput('vacancyRate')</span>"&gt;</span>×<span class="html-tag">&lt;/button&gt;</span><span class="html-tag">&lt;/div&gt;</span></td></tr><tr><td class="line-number" value="102"></td><td class="line-content">        <span class="html-tag">&lt;div <span class="html-attribute-name">class</span>="<span class="html-attribute-value">row</span>"&gt;</span><span class="html-tag">&lt;label&gt;</span>諸経費率 (%)<span class="html-tag">&lt;/label&gt;</span><span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">number</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">expensesRate</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">15</span>"&gt;</span><span class="html-tag">&lt;button <span class="html-attribute-name">class</span>="<span class="html-attribute-value">clear-btn</span>" <span class="html-attribute-name">onclick</span>="<span class="html-attribute-value">clearInput('expensesRate')</span>"&gt;</span>×<span class="html-tag">&lt;/button&gt;</span><span class="html-tag">&lt;/div&gt;</span></td></tr><tr><td class="line-number" value="103"></td><td class="line-content">        <span class="html-tag">&lt;div <span class="html-attribute-name">class</span>="<span class="html-attribute-value">row</span>"&gt;</span><span class="html-tag">&lt;label&gt;</span>借入期間 (年)<span class="html-tag">&lt;/label&gt;</span><span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">number</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">loanPeriod</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">15</span>"&gt;</span><span class="html-tag">&lt;button <span class="html-attribute-name">class</span>="<span class="html-attribute-value">clear-btn</span>" <span class="html-attribute-name">onclick</span>="<span class="html-attribute-value">clearInput('loanPeriod')</span>"&gt;</span>×<span class="html-tag">&lt;/button&gt;</span><span class="html-tag">&lt;/div&gt;</span></td></tr><tr><td class="line-number" value="104"></td><td class="line-content">        <span class="html-tag">&lt;div <span class="html-attribute-name">class</span>="<span class="html-attribute-value">row</span>"&gt;</span><span class="html-tag">&lt;label&gt;</span>借入金利 (%)<span class="html-tag">&lt;/label&gt;</span><span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">number</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">interestRate</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">3</span>"&gt;</span><span class="html-tag">&lt;button <span class="html-attribute-name">class</span>="<span class="html-attribute-value">clear-btn</span>" <span class="html-attribute-name">onclick</span>="<span class="html-attribute-value">clearInput('interestRate')</span>"&gt;</span>×<span class="html-tag">&lt;/button&gt;</span><span class="html-tag">&lt;/div&gt;</span></td></tr><tr><td class="line-number" value="105"></td><td class="line-content">        <span class="html-tag">&lt;button <span class="html-attribute-name">onclick</span>="<span class="html-attribute-value">calculate()</span>"&gt;</span>ご試算<span class="html-tag">&lt;/button&gt;</span></td></tr><tr><td class="line-number" value="106"></td><td class="line-content">        <span class="html-tag">&lt;div <span class="html-attribute-name">class</span>="<span class="html-attribute-value">results</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">results</span>"&gt;</span><span class="html-tag">&lt;/div&gt;</span></td></tr><tr><td class="line-number" value="107"></td><td class="line-content">    <span class="html-tag">&lt;/div&gt;</span></td></tr><tr><td class="line-number" value="108"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="109"></td><td class="line-content">    <span class="html-tag">&lt;script&gt;</span></td></tr><tr><td class="line-number" value="110"></td><td class="line-content">        function clearInput(id) {</td></tr><tr><td class="line-number" value="111"></td><td class="line-content">            document.getElementById(id).value = "";</td></tr><tr><td class="line-number" value="112"></td><td class="line-content">        }</td></tr><tr><td class="line-number" value="113"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="114"></td><td class="line-content">        function formatYen(num) {</td></tr><tr><td class="line-number" value="115"></td><td class="line-content">            return Number(num).toLocaleString("ja-JP", { style: "currency", currency: "JPY" });</td></tr><tr><td class="line-number" value="116"></td><td class="line-content">        }</td></tr><tr><td class="line-number" value="117"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="118"></td><td class="line-content">        function calculate() {</td></tr><tr><td class="line-number" value="119"></td><td class="line-content">            const P = parseFloat(document.getElementById('propertyPrice').value);</td></tr><tr><td class="line-number" value="120"></td><td class="line-content">            const Y = parseFloat(document.getElementById('annualIncome').value);</td></tr><tr><td class="line-number" value="121"></td><td class="line-content">            const C = parseFloat(document.getElementById('ownCapital').value);</td></tr><tr><td class="line-number" value="122"></td><td class="line-content">            const V = parseFloat(document.getElementById('vacancyRate').value) / 100;</td></tr><tr><td class="line-number" value="123"></td><td class="line-content">            const E = parseFloat(document.getElementById('expensesRate').value) / 100;</td></tr><tr><td class="line-number" value="124"></td><td class="line-content">            const T = parseFloat(document.getElementById('loanPeriod').value);</td></tr><tr><td class="line-number" value="125"></td><td class="line-content">            const R = parseFloat(document.getElementById('interestRate').value) / 100;</td></tr><tr><td class="line-number" value="126"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="127"></td><td class="line-content">            const B = P - C; // 借入金額</td></tr><tr><td class="line-number" value="128"></td><td class="line-content">            const n = T * 12;</td></tr><tr><td class="line-number" value="129"></td><td class="line-content">            const i = R / 12;</td></tr><tr><td class="line-number" value="130"></td><td class="line-content">            const A = B * i * Math.pow(1 + i, n) / (Math.pow(1 + i, n) - 1);</td></tr><tr><td class="line-number" value="131"></td><td class="line-content">            const annualRepayment = A * 12;</td></tr><tr><td class="line-number" value="132"></td><td class="line-content">            const totalRepayment = A * n;</td></tr><tr><td class="line-number" value="133"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="134"></td><td class="line-content">            const netAnnualRent = Y * (1 - V);</td></tr><tr><td class="line-number" value="135"></td><td class="line-content">            const expenses = netAnnualRent * E;</td></tr><tr><td class="line-number" value="136"></td><td class="line-content">            const annualOutflow = annualRepayment + expenses;</td></tr><tr><td class="line-number" value="137"></td><td class="line-content">            const netIncome = netAnnualRent - expenses - annualRepayment;</td></tr><tr><td class="line-number" value="138"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="139"></td><td class="line-content">            const surfaceYield = Y / P * 100;</td></tr><tr><td class="line-number" value="140"></td><td class="line-content">            const realYield = netAnnualRent / P * 100;</td></tr><tr><td class="line-number" value="141"></td><td class="line-content">            const yieldAfterRepayment = netIncome / P * 100;</td></tr><tr><td class="line-number" value="142"></td><td class="line-content">            const investmentYield = netIncome / C * 100;</td></tr><tr><td class="line-number" value="143"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="144"></td><td class="line-content">            document.getElementById("results").innerHTML = `</td></tr><tr><td class="line-number" value="145"></td><td class="line-content">                返済額（月額）：${formatYen(A.toFixed(0))}&lt;br&gt;</td></tr><tr><td class="line-number" value="146"></td><td class="line-content">                返済額（年額）：${formatYen(annualRepayment.toFixed(0))}&lt;br&gt;</td></tr><tr><td class="line-number" value="147"></td><td class="line-content">                返済総額：${formatYen(totalRepayment.toFixed(0))}&lt;br&gt;</td></tr><tr><td class="line-number" value="148"></td><td class="line-content">                家賃収入（年額）：${formatYen(netAnnualRent.toFixed(0))}&lt;br&gt;</td></tr><tr><td class="line-number" value="149"></td><td class="line-content">                控除・諸経費（年額）：${formatYen(expenses.toFixed(0))}&lt;br&gt;</td></tr><tr><td class="line-number" value="150"></td><td class="line-content">                年間支出：${formatYen(annualOutflow.toFixed(0))}&lt;br&gt;</td></tr><tr><td class="line-number" value="151"></td><td class="line-content">                年間手取り：${formatYen(netIncome.toFixed(0))}&lt;br&gt;</td></tr><tr><td class="line-number" value="152"></td><td class="line-content">                表面利回り：${surfaceYield.toFixed(2)}%&lt;br&gt;</td></tr><tr><td class="line-number" value="153"></td><td class="line-content">                実質利回り：${realYield.toFixed(2)}%&lt;br&gt;</td></tr><tr><td class="line-number" value="154"></td><td class="line-content">                返済後利回り：${yieldAfterRepayment.toFixed(2)}%&lt;br&gt;</td></tr><tr><td class="line-number" value="155"></td><td class="line-content">                投資利回り：${investmentYield.toFixed(2)}%</td></tr><tr><td class="line-number" value="156"></td><td class="line-content">            `;</td></tr><tr><td class="line-number" value="157"></td><td class="line-content">        }</td></tr><tr><td class="line-number" value="158"></td><td class="line-content">    <span class="html-tag">&lt;/script&gt;</span></td></tr><tr><td class="line-number" value="159"></td><td class="line-content"><span class="html-tag">&lt;/body&gt;</span></td></tr><tr><td class="line-number" value="160"></td><td class="line-content"><span class="html-tag">&lt;/html&gt;</span></td></tr><tr><td class="line-number" value="161"></td><td class="line-content"><span class="html-end-of-file"></span></td></tr></tbody></table></body></html>
+        body {
+            font-family: sans-serif;
+            margin: 10px;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        .row label {
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .row input[type="number"] {
+            width: 100px;
+            padding: 2px;
+            font-size: 14px;
+        }
+        .clear-btn {
+            padding: 0 6px;
+            font-size: 12px;
+            cursor: pointer;
+            background-color: #ccc;
+            border: none;
+            border-radius: 3px;
+        }
+        button {
+            padding: 8px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .results {
+            font-size: 14px;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>収支計算</h1>
+    <div class="container">
+        <div class="row"><label>物件価格</label><input type="number" id="propertyPrice" value="60000000"><button class="clear-btn" onclick="clearInput('propertyPrice')">×</button></div>
+        <div class="row"><label>年間想定年収</label><input type="number" id="annualIncome" value="7592400"><button class="clear-btn" onclick="clearInput('annualIncome')">×</button></div>
+        <div class="row"><label>自己資金</label><input type="number" id="ownCapital" value="5000000"><button class="clear-btn" onclick="clearInput('ownCapital')">×</button></div>
+        <div class="row"><label>空室率 (%)</label><input type="number" id="vacancyRate" value="10"><button class="clear-btn" onclick="clearInput('vacancyRate')">×</button></div>
+        <div class="row"><label>諸経費率 (%)</label><input type="number" id="expensesRate" value="15"><button class="clear-btn" onclick="clearInput('expensesRate')">×</button></div>
+        <div class="row"><label>借入期間 (年)</label><input type="number" id="loanPeriod" value="15"><button class="clear-btn" onclick="clearInput('loanPeriod')">×</button></div>
+        <div class="row"><label>借入金利 (%)</label><input type="number" id="interestRate" value="3"><button class="clear-btn" onclick="clearInput('interestRate')">×</button></div>
+        <button onclick="calculate()">ご試算</button>
+        <div class="results" id="results"></div>
+    </div>
+
+    <script>
+        function clearInput(id) {
+            document.getElementById(id).value = "";
+        }
+
+        function formatYen(num) {
+            return Number(num).toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
+        }
+
+        function calculate() {
+            const P = parseFloat(document.getElementById('propertyPrice').value);
+            const Y = parseFloat(document.getElementById('annualIncome').value);
+            const C = parseFloat(document.getElementById('ownCapital').value);
+            const V = parseFloat(document.getElementById('vacancyRate').value) / 100;
+            const E = parseFloat(document.getElementById('expensesRate').value) / 100;
+            const T = parseFloat(document.getElementById('loanPeriod').value);
+            const R = parseFloat(document.getElementById('interestRate').value) / 100;
+
+            const B = P - C; // 借入金額
+            const n = T * 12;
+            const i = R / 12;
+            const A = B * i * Math.pow(1 + i, n) / (Math.pow(1 + i, n) - 1);
+            const annualRepayment = A * 12;
+            const totalRepayment = A * n;
+
+            const netAnnualRent = Y * (1 - V);
+            const expenses = netAnnualRent * E;
+            const annualOutflow = annualRepayment + expenses;
+            const netIncome = netAnnualRent - expenses - annualRepayment;
+
+            const surfaceYield = Y / P * 100;
+            const realYield = netAnnualRent / P * 100;
+            const yieldAfterRepayment = netIncome / P * 100;
+            const investmentYield = netIncome / C * 100;
+
+            document.getElementById("results").innerHTML = `
+                返済額（月額）：${formatYen(A.toFixed(0))}<br>
+                返済額（年額）：${formatYen(annualRepayment.toFixed(0))}<br>
+                返済総額：${formatYen(totalRepayment.toFixed(0))}<br>
+                家賃収入（年額）：${formatYen(netAnnualRent.toFixed(0))}<br>
+                控除・諸経費（年額）：${formatYen(expenses.toFixed(0))}<br>
+                年間支出：${formatYen(annualOutflow.toFixed(0))}<br>
+                年間手取り：${formatYen(netIncome.toFixed(0))}<br>
+                表面利回り：${surfaceYield.toFixed(2)}%<br>
+                実質利回り：${realYield.toFixed(2)}%<br>
+                返済後利回り：${yieldAfterRepayment.toFixed(2)}%<br>
+                投資利回り：${investmentYield.toFixed(2)}%
+            `;
+        }
+    </script>
+</body>
+</html>
