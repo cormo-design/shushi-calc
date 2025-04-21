@@ -17,6 +17,7 @@
         .ideal-row { display: flex; flex-direction: column; align-items: flex-start; font-size: 14px; }
         .ideal-row label { width: auto; margin-bottom: 2px; }
         .ideal-row input[type="number"] { width: 80px; padding: 2px; font-size: 14px; }
+        .optional { display: none; }
         .clear-btn { padding: 2px 6px; font-size: 12px; cursor: pointer; background-color: #ccc; border: none; border-radius: 3px; }
         button.calc-btn { width: 100%; padding: 8px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; margin-top: 10px; }
         .results {
@@ -47,19 +48,20 @@
     <h1>収支計算</h1>
     <div class="container">
         <div class="inputs">
+            <div class="row"><label><input type="checkbox" id="toggleOptions" onchange="toggleOptions()">詳細オプションを表示</label></div>
             <div class="row"><label>物件価格（円）</label><input type="number" id="propertyPrice" value="60000000" oninput="updateLoan()" onblur="showJpn('propertyPrice','notePrice')"><button class="clear-btn" onclick="clearInput('propertyPrice')">×</button><span id="notePrice" class="jpn-note"></span></div>
             <div class="row"><label>年間想定年収（円）</label><input type="number" id="annualIncome" value="7592400" onblur="showJpn('annualIncome','noteIncome')"><button class="clear-btn" onclick="clearInput('annualIncome')">×</button><span id="noteIncome" class="jpn-note"></span></div>
             <div class="row"><label>自己資金（円）</label><input type="number" id="ownCapital" value="5000000" oninput="updateLoan()" onblur="showJpn('ownCapital','noteCapital')"><button class="clear-btn" onclick="clearInput('ownCapital')">×</button><span id="noteCapital" class="jpn-note"></span></div>
             <div class="row"><label>借入金額（円）</label><span id="loanAmount" class="value-display"></span></div>
             <div class="row"><label>空室率（%）</label><input type="number" id="vacancyRate" value="10"><button class="clear-btn" onclick="clearInput('vacancyRate')">×</button></div>
             <div class="row"><label>諸経費率（%）</label><input type="number" id="expensesRate" value="15"><button class="clear-btn" onclick="clearInput('expensesRate')">×</button></div>
-            <div class="row"><label>借入期間（年）</label><input type="number" id="loanPeriod" value="15" onblur="showJpn('loanPeriod','notePeriod')"><button class="clear-btn" onclick="clearInput('loanPeriod')">×</button><span id="notePeriod" class="jpn-note"></span></div>
-            <div class="row"><label>借入金利（%）</label><input type="number" id="interestRate" value="3" onblur="showJpn('interestRate','noteRate')"><button class="clear-btn" onclick="clearInput('interestRate')">×</button><span id="noteRate" class="jpn-note"></span></div>
-            <div class="row"><label>路線価（円）</label><input type="number" id="routePrice" value="30000" onblur="showJpn('routePrice','noteRoute')"><button class="clear-btn" onclick="clearInput('routePrice')">×</button><span id="noteRoute" class="jpn-note"></span></div>
-            <div class="row"><label>土地面積（㎡）</label><input type="number" id="landArea" value="500" onblur="showJpn('landArea','noteArea')"><button class="clear-btn" onclick="clearInput('landArea')">×</button><span id="noteArea" class="jpn-note"></span></div>
+            <div class="row optional"><label>借入期間（年）</label><input type="number" id="loanPeriod" value="15" onblur="showJpn('loanPeriod','notePeriod')"><button class="clear-btn" onclick="clearInput('loanPeriod')">×</button><span id="notePeriod" class="jpn-note"></span></div>
+            <div class="row optional"><label>借入金利（%）</label><input type="number" id="interestRate" value="3" onblur="showJpn('interestRate','noteRate')"><button class="clear-btn" onclick="clearInput('interestRate')">×</button><span id="noteRate" class="jpn-note"></span></div>
+            <div class="row optional"><label>路線価（円）</label><input type="number" id="routePrice" value="30000" onblur="showJpn('routePrice','noteRoute')"><button class="clear-btn" onclick="clearInput('routePrice')">×</button><span id="noteRoute" class="jpn-note"></span></div>
+            <div class="row optional"><label>土地面積（㎡）</label><input type="number" id="landArea" value="500" onblur="showJpn('landArea','noteArea')"><button class="clear-btn" onclick="clearInput('landArea')">×</button><span id="noteArea" class="jpn-note"></span></div>
             <button class="calc-btn" onclick="calculate()">↓計算↓</button>
         </div>
-        <div class="ideals">
+        <div class="ideals optional">
             <div class="ideal-row"><label>表面利回り 理想（%）</label><input type="number" id="idealSurface" value="12"></div>
             <div class="ideal-row"><label>実質利回り 理想（%）</label><input type="number" id="idealReal" value="10"></div>
             <div class="ideal-row"><label>返済後利回り 理想（%）</label><input type="number" id="idealAfter" value="3"></div>
@@ -68,105 +70,81 @@
     </div>
     <div class="results" id="results"></div>
     <script>
+        function toggleOptions() {
+            const show = document.getElementById('toggleOptions').checked;
+            document.querySelectorAll('.optional').forEach(el => el.style.display = show ? 'flex' : 'none');
+        }
         function clearInput(id) {
             document.getElementById(id).value = '';
             const note = 'note' + id.charAt(0).toUpperCase() + id.slice(1);
             if (document.getElementById(note)) document.getElementById(note).textContent = '';
-            if (id === 'propertyPrice' || id === 'ownCapital') updateLoan();
         }
-        function formatYen(num) {
-            return Number(num).toLocaleString('ja-JP', { style: 'currency', currency: 'JPY' });
-        }
-        function toFull(str) {
-            return str.replace(/\d/g, d => String.fromCharCode(d.charCodeAt(0) + 0xFEE0));
-        }
-        function showJpn(inputId, noteId) {
-            const val = parseFloat(document.getElementById(inputId).value) || 0;
-            let text = '';
-            if (['propertyPrice', 'annualIncome', 'ownCapital', 'routePrice'].includes(inputId) && val >= 10000) {
-                text = toFull(Math.round(val / 10000).toString()) + '万円';
-            } else if (inputId === 'landArea' && val) {
-                text = toFull(val.toString()) + '㎡';
-            } else if (val) {
-                text = toFull(val.toString());
-            }
-            document.getElementById(noteId).textContent = text;
-        }
-        function updateLoan() {
-            const P = parseFloat(document.getElementById('propertyPrice').value) || 0;
-            const C = parseFloat(document.getElementById('ownCapital').value) || 0;
-            document.getElementById('loanAmount').textContent = formatYen((P - C).toFixed(0));
-        }
-        function calculate() {
+        function formatYen(num) { return Number(num).toLocaleString('ja-JP',{style:'currency',currency:'JPY'}); }
+        function toFull(str) { return str.replace(/\d/g,d=>String.fromCharCode(d.charCodeAt(0)+0xFEE0)); }
+        function showJpn(inputId,noteId){ const val=parseFloat(document.getElementById(inputId).value)||0; let text=''; if(['propertyPrice','annualIncome','ownCapital','routePrice'].includes(inputId)&&val>=10000){ text=toFull(Math.round(val/10000))+'万円'; } else if(inputId==='landArea'&&val){ text=toFull(val)+'㎡'; } else if(val){ text=toFull(val); } document.getElementById(noteId).textContent=text; }
+        function updateLoan(){ const P=parseFloat(document.getElementById('propertyPrice').value)||0; const C=parseFloat(document.getElementById('ownCapital').value)||0; document.getElementById('loanAmount').textContent = formatYen((P-C).toFixed(0)); }
+        function calculate(){
             updateLoan();
-            const P = parseFloat(document.getElementById('propertyPrice').value) || 0;
-            const Y = parseFloat(document.getElementById('annualIncome').value) || 0;
-            const C = parseFloat(document.getElementById('ownCapital').value) || 0;
-            const B = P - C;
-            const V = (parseFloat(document.getElementById('vacancyRate').value) || 0) / 100;
-            const E = (parseFloat(document.getElementById('expensesRate').value) || 0) / 100;
-            const T = parseFloat(document.getElementById('loanPeriod').value) || 0;
-            const R = (parseFloat(document.getElementById('interestRate').value) || 0) / 100;
-            const RP = parseFloat(document.getElementById('routePrice').value) || 0;
-            const LA = parseFloat(document.getElementById('landArea').value) || 0;
-            const idealS = parseFloat(document.getElementById('idealSurface').value) || 0;
-            const idealR = parseFloat(document.getElementById('idealReal').value) || 0;
-            const idealA = parseFloat(document.getElementById('idealAfter').value) || 0;
-            const idealCCR = parseFloat(document.getElementById('idealCCR').value) || 0;
-            const n = T * 12;
-            const i = R / 12;
-            const A = n > 0 && i > 0 ? B * i * Math.pow(1 + i, n) / (Math.pow(1 + i, n) - 1) : 0;
-            const annualRepayment = A * 12;
-            const totalRepayment = A * n;
-            const netAnnualRent = Y * (1 - V);
-            const expenses = netAnnualRent * E;
-            const annualOutflow = annualRepayment + expenses;
-            const netIncome = netAnnualRent - expenses - annualRepayment;
-            const landValue = RP * LA;
-            let remainingMonths = 0;
-            for (let k = 0; k <= n; k++) {
-                const balance = k === 0 ? B : B * Math.pow(1 + i, k) - A * (Math.pow(1 + i, k) - 1) / i;
-                if (balance <= landValue) { remainingMonths = k; break; }
-            }
-            const yearsTill = Math.floor(remainingMonths / 12);
-            const monthsTill = remainingMonths % 12;
-            const periodStr = yearsTill + '年' + monthsTill + 'ヶ月';
-            const surfaceYield = P > 0 ? (Y / P * 100) : 0;
-            const realYield = P > 0 ? (netAnnualRent / P * 100) : 0;
-            const yieldAfterRepayment = P > 0 ? (netIncome / P * 100) : 0;
-            const investmentYield = C > 0 ? (netIncome / C * 100) : 0;
-            const rows = [
-                ['返済額（月額）', formatYen(A.toFixed(0)), ''],
-                ['返済額（年額）', formatYen(annualRepayment.toFixed(0)), ''],
-                ['返済総額', formatYen(totalRepayment.toFixed(0)), ''],
-                ['家賃収入（年額）', formatYen(netAnnualRent.toFixed(0)), ''],
-                ['控除・諸経費（年額）', formatYen(expenses.toFixed(0)), ''],
-                ['年間支出', formatYen(annualOutflow.toFixed(0)), ''],
-                ['年間手取り', formatYen(netIncome.toFixed(0)), ''],
-                ['表面利回り', surfaceYield.toFixed(2) + '%', idealS],
-                ['実質利回り', realYield.toFixed(2) + '%', idealR],
-                ['返済後利回り', yieldAfterRepayment.toFixed(2) + '%', idealA],
-                ['投資利回り(自己資金)CCR', investmentYield.toFixed(2) + '%', idealCCR],
-                ['土地値（路線価）', formatYen(landValue.toFixed(0)), ''],
-                ['残債が土地値を下回るまで', periodStr, '']
+            const P=parseFloat(document.getElementById('propertyPrice').value)||0;
+            const Y=parseFloat(document.getElementById('annualIncome').value)||0;
+            const C=parseFloat(document.getElementById('ownCapital').value)||0;
+            const V=(parseFloat(document.getElementById('vacancyRate').value)||0)/100;
+            const E=(parseFloat(document.getElementById('expensesRate').value)||0)/100;
+            const T=parseFloat(document.getElementById('loanPeriod').value)||0;
+            const R=(parseFloat(document.getElementById('interestRate').value)||0)/100;
+            const RP=parseFloat(document.getElementById('routePrice').value)||0;
+            const LA=parseFloat(document.getElementById('landArea').value)||0;
+            const idealS=parseFloat(document.getElementById('idealSurface').value)||0;
+            const idealR=parseFloat(document.getElementById('idealReal').value)||0;
+            const idealA=parseFloat(document.getElementById('idealAfter').value)||0;
+            const idealCCR=parseFloat(document.getElementById('idealCCR').value)||0;
+            const B=P-C, n=T*12, i=R/12;
+            const Acalc=n>0&&i>0?B*i*Math.pow(1+i,n)/(Math.pow(1+i,n)-1):0;
+            const annualRepayment=Acalc*12, totalRepayment=Acalc*n;
+            const netAnnualRent=Y*(1-V), expenses=netAnnualRent*E;
+            const annualOutflow=annualRepayment+expenses;
+            const netIncome=netAnnualRent-expenses-annualRepayment;
+            const landValue=RP*LA;
+            let rem=0; for(let k=0;k<=n;k++){ const bal=k===0?B:B*Math.pow(1+i,k)-Acalc*(Math.pow(1+i,k)-1)/i; if(bal<=landValue){ rem=k; break; }}
+            const yearsTill=Math.floor(rem/12), monthsTill=rem%12, periodStr=yearsTill+'年'+monthsTill+'ヶ月';
+            const surfaceYield=P>0?Y/P*100:0;
+            const realYield=P>0?netAnnualRent/P*100:0;
+            const yieldAfterRepayment=P>0?netIncome/P*100:0;
+            const investmentYield=C>0?netIncome/C*100:0;
+            const showOpt=document.getElementById('toggleOptions').checked;
+            const rows=[
+                ['返済額（月額）',formatYen(Acalc.toFixed(0)), ''],
+                ['返済額（年額）',formatYen(annualRepayment.toFixed(0)), ''],
+                ['返済総額',formatYen(totalRepayment.toFixed(0)), ''],
+                ['家賃収入（年額）',formatYen(netAnnualRent.toFixed(0)), ''],
+                ['控除・諸経費（年額）',formatYen(expenses.toFixed(0)), ''],
+                ['年間支出',formatYen(annualOutflow.toFixed(0)), ''],
+                ['年間手取り',formatYen(netIncome.toFixed(0)), ''],
+                ['表面利回り',surfaceYield.toFixed(2)+'%',idealS],
+                ['実質利回り',realYield.toFixed(2)+'%',idealR],
+                ['返済後利回り',yieldAfterRepayment.toFixed(2)+'%',idealA]
             ];
-            const resultDiv = document.getElementById('results');
-            resultDiv.innerHTML = '';
-            rows.forEach(([label, val, ideal]) => {
-                const ls = document.createElement('span'); ls.textContent = label;
-                const vs = document.createElement('span'); vs.textContent = val;
-                if (ideal !== '') {
-                    const num = parseFloat(val);
-                    if (!isNaN(num)) {
-                        if (num >= ideal) vs.style.color = 'green';
-                        else if (num < ideal * 0.5) vs.style.color = 'red';
+            if(showOpt){
+                rows.push(['投資利回り(自己資金)CCR',investmentYield.toFixed(2)+'%',idealCCR]);
+                rows.push(['土地値（路線価）',formatYen(landValue.toFixed(0)), '']);
+                rows.push(['残債が土地値を下回るまで',periodStr,'']);
+            }
+            const div=document.getElementById('results'); div.innerHTML='';
+            rows.forEach(([lbl,val,ideal])=>{
+                const ls=document.createElement('span'); ls.textContent=lbl;
+                const vs=document.createElement('span'); vs.textContent=val;
+                if(ideal!==''){
+                    const num=parseFloat(val);
+                    if(!isNaN(num)){
+                        if(num>=ideal) vs.style.color='green';
+                        else if(num<ideal*0.5) vs.style.color='red';
                     }
                 }
-                const ispan = document.createElement('span'); ispan.textContent = ideal !== '' ? ideal + '%' : '';
-                resultDiv.append(ls, vs, ispan);
+                const ispan=document.createElement('span'); ispan.textContent=ideal?ideal+'%':'';
+                div.append(ls,vs,ispan);
             });
         }
-        document.addEventListener('DOMContentLoaded', () => { updateLoan(); calculate(); });
+        document.addEventListener('DOMContentLoaded',()=>{ toggleOptions(); updateLoan(); calculate(); });
     </script>
 </body>
 </html>
