@@ -20,7 +20,7 @@
     #results .label { text-align: right; font-weight: 600; color: #333; }
     #results .value { text-align: right; font-family: monospace; min-width: 140px; }
     #results .green { color: #0d6efd; }
-    #results .red { color: #dc3545; }
+    #results .red   { color: #dc3545; }
     .optional { display: none; color: #007bff; }
     footer { text-align: center; font-size: 12px; color: #666; margin-top: auto; padding-top: 8px; }
   </style>
@@ -35,32 +35,32 @@
     </div>
     <div class="row">
       <label for="propertyPrice">物件価格（円）</label>
-      <input type="tel" id="propertyPrice" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="propertyPrice" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       <button class="clear-btn" onclick="clearInput('propertyPrice')">×</button>
       <span id="largePropertyPrice" class="jpn-large"></span>
       <div class="ideal-inline optional">
         <label for="idealSurface">理想 表面利回り%</label>
-        <input type="tel" id="idealSurface" value="12" inputmode="numeric" pattern="[0-9]*" />
+        <input type="tel" id="idealSurface" value="12" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       </div>
     </div>
     <div class="row">
       <label for="annualIncome">年間想定年収（円）</label>
-      <input type="tel" id="annualIncome" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="annualIncome" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       <button class="clear-btn" onclick="clearInput('annualIncome')">×</button>
       <span id="largeAnnualIncome" class="jpn-large"></span>
       <div class="ideal-inline optional">
         <label for="idealReal">理想 実質利回り%</label>
-        <input type="tel" id="idealReal" value="10" inputmode="numeric" pattern="[0-9]*" />
+        <input type="tel" id="idealReal" value="10" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       </div>
     </div>
     <div class="row">
       <label for="ownCapital">自己資金（円）</label>
-      <input type="tel" id="ownCapital" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="ownCapital" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       <button class="clear-btn" onclick="clearInput('ownCapital')">×</button>
       <span id="largeOwnCapital" class="jpn-large"></span>
       <div class="ideal-inline optional">
         <label for="idealAfter">理想 返済後利回り%</label>
-        <input type="tel" id="idealAfter" value="3" inputmode="numeric" pattern="[0-9]*" />
+        <input type="tel" id="idealAfter" value="3" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       </div>
     </div>
     <div class="row">
@@ -69,37 +69,37 @@
       <span id="largeLoanAmount" class="jpn-large"></span>
       <div class="ideal-inline optional">
         <label for="idealCCR">理想 投資利回り(CCR)%</label>
-        <input type="tel" id="idealCCR" value="30" inputmode="numeric" pattern="[0-9]*" />
+        <input type="tel" id="idealCCR" value="30" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       </div>
     </div>
     <div class="row">
       <label for="vacancyRate">空室率（%）</label>
-      <input type="tel" id="vacancyRate" value="10" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="vacancyRate" value="10" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       <button class="clear-btn" onclick="clearInput('vacancyRate')">×</button>
     </div>
     <div class="row">
       <label for="expensesRate">諸経費率（%）</label>
-      <input type="tel" id="expensesRate" value="15" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="expensesRate" value="15" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       <button class="clear-btn" onclick="clearInput('expensesRate')">×</button>
     </div>
     <div class="row">
       <label for="loanPeriod">借入期間（年）</label>
-      <input type="tel" id="loanPeriod" value="15" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="loanPeriod" value="15" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       <button class="clear-btn" onclick="clearInput('loanPeriod')">×</button>
     </div>
     <div class="row">
       <label for="interestRate">借入金利（%）</label>
-      <input type="tel" id="interestRate" value="3" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="interestRate" value="3" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       <button class="clear-btn" onclick="clearInput('interestRate')">×</button>
     </div>
     <div class="row optional">
       <label for="routePrice">路線価（円）</label>
-      <input type="tel" id="routePrice" value="30000" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="routePrice" value="30000" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       <button class="clear-btn" onclick="clearInput('routePrice')">×</button>
     </div>
     <div class="row optional">
       <label for="landArea">土地面積（㎡）</label>
-      <input type="tel" id="landArea" value="500" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="landArea" value="500" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
       <button class="clear-btn" onclick="clearInput('landArea')">×</button>
     </div>
     <button id="calc" onclick="calculate()">↓計算↓</button>
