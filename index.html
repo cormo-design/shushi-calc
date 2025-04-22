@@ -10,6 +10,8 @@
     .row { display: flex; align-items: center; gap: 6px; margin: 4px 0; font-size: 14px; }
     .row label { width: 140px; white-space: nowrap; }
     .row input[type="tel"] { width: 100px; padding: 2px 4px; text-align: right; font-size: 14px; }
+    /* Interest split inputs half width */
+    #interestInt, #interestFrac { width: 50px !important; }
     .clear-btn { padding: 0 6px; font-size: 14px; cursor: pointer; }
     .jpn-large { margin-left: 6px; color: #555; font-size: 13px; white-space: nowrap; }
     .ideal-inline { display: flex; align-items: center; gap: 4px; margin-left: auto; }
@@ -88,9 +90,11 @@
       <button class="clear-btn" onclick="clearInput('loanPeriod')">×</button>
     </div>
     <div class="row">
-      <label for="interestRate">借入金利（%）</label>
-      <input type="tel" id="interestRate" value="3" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
-      <button class="clear-btn" onclick="clearInput('interestRate')">×</button>
+      <label for="interestInt">借入金利（%）</label>
+      <input type="tel" id="interestInt" placeholder="整数部" inputmode="numeric" pattern="[0-9]*" />
+      <span style="font-size:14px;">.</span>
+      <input type="tel" id="interestFrac" placeholder="小数部" inputmode="numeric" pattern="[0-9]*" />
+      <button class="clear-btn" onclick="clearInput('interestInt');clearInput('interestFrac')">×</button>
     </div>
     <div class="row optional">
       <label for="routePrice">路線価（円）</label>
@@ -105,22 +109,26 @@
     <button id="calc" onclick="calculate()">↓計算↓</button>
     <div id="results"></div>
   </div>
-  <footer>
-    &copy; cormo-design
-  </footer>
+  <footer>&copy; cormo-design</footer>
   <script>
-    const fields = ['propertyPrice','annualIncome','ownCapital','vacancyRate','expensesRate','loanPeriod','interestRate','routePrice','landArea','idealSurface','idealReal','idealAfter','idealCCR'];
+    const fields = ['propertyPrice','annualIncome','ownCapital','vacancyRate','expensesRate','loanPeriod','routePrice','landArea','idealSurface','idealReal','idealAfter','idealCCR','interestInt','interestFrac'];
     const toggleBox = document.getElementById('toggleOptions');
-    function toggleOptional() { document.querySelectorAll('.optional').forEach(el => el.style.display = toggleBox.checked ? 'flex' : 'none'); }
+    function toggleOptional() {
+      document.querySelectorAll('.optional').forEach(el => el.style.display = toggleBox.checked ? 'flex' : 'none');
+    }
     toggleBox.addEventListener('change', () => { toggleOptional(); calculate(); });
     toggleOptional();
     fields.forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('blur', updateDisplays); });
     function clearInput(id) { document.getElementById(id).value = ''; updateDisplays(); }
     function num(id) { return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0; }
     function fmt(id) { const el = document.getElementById(id); if (!el) return; let v = el.value.replace(/,/g,'').replace(/[^0-9.]/g,''); if (v) { let p = v.split('.'); p[0] = parseInt(p[0],10).toLocaleString(); el.value = p.join('.'); }}
-    function big(n) { if (n <= 0) return ''; return (Math.floor(n/1e8) ? Math.floor(n/1e8) + '億' : '') + (Math.floor((n % 1e8)/1e4) ? Math.floor((n%1e8)/1e4).toLocaleString() + '万円' : ''); }
+    function big(n) { if (n<=0) return ''; return (Math.floor(n/1e8)?Math.floor(n/1e8)+'億':'') + (Math.floor((n%1e8)/1e4)?Math.floor((n%1e8)/1e4).toLocaleString()+'万円':''); }
+    function getInterestRate() {
+      const i = num('interestInt'), f = num('interestFrac');
+      return parseFloat(i + '.' + f) || 0;
+    }
     function updateDisplays() {
-      fields.forEach(fmt);
+      ['propertyPrice','annualIncome','ownCapital','vacancyRate','expensesRate','loanPeriod','routePrice','landArea','idealSurface','idealReal','idealAfter','idealCCR'].forEach(fmt);
       document.getElementById('largePropertyPrice').textContent = big(num('propertyPrice'));
       document.getElementById('largeAnnualIncome').textContent = big(num('annualIncome'));
       document.getElementById('largeOwnCapital').textContent = big(num('ownCapital'));
@@ -135,37 +143,38 @@
       updateDisplays();
       const P = num('propertyPrice'), Y = num('annualIncome'), C = num('ownCapital');
       if (!P || !Y) { document.getElementById('results').innerHTML = ''; return; }
-      const V = num('vacancyRate')/100, E = num('expensesRate')/100, T = num('loanPeriod'), R = num('interestRate')/100;
+      const V = num('vacancyRate')/100, E = num('expensesRate')/100, T = num('loanPeriod'), R = getInterestRate()/100;
       const B = P - C, nMonths = T*12, i = R/12;
-      const A = nMonths && i ? B*i*Math.pow(1+i,nMonths) / (Math.pow(1+i,nMonths) - 1) : 0;
+      const A = nMonths && i ? B*i*Math.pow(1+i,nMonths)/(Math.pow(1+i,nMonths)-1) : 0;
       const annualRep = A*12, totalRep = A*nMonths;
       const netRent = Y*(1-V), expenses = netRent*E, netInc = netRent - expenses - annualRep;
-      const surface = Y/P*100, real = (netRent-expenses)/P*100, after = netInc/P*100, ccr = C ? netInc/C*100 : 0;
+      const surface = Y/P*100, real = (netRent-expenses)/P*100, after = netInc/P*100, ccr = C? netInc/C*100 : 0;
       const idS = num('idealSurface'), idR = num('idealReal'), idA = num('idealAfter'), idC = num('idealCCR');
       let html = '';
       html += addRow('返済額（月額）', yen(A.toFixed(0)));
       html += addRow('返済額（年額）', yen(annualRep.toFixed(0)));
-      html += addRow('返済総額', yen(totalRep.toFixed(0)));
+      html += addRow('返済総額',       yen(totalRep.toFixed(0)));
       html += addRow('家賃収入（年額）', yen(netRent.toFixed(0)));
       html += addRow('諸経費（年額）', yen(expenses.toFixed(0)));
-      html += addRow('年間手取り', yen(netInc.toFixed(0)));
-      html += addRow('表面利回り', pct(surface), surface >= idS ? 'green' : surface < idS*0.5 ? 'red' : '');
-      html += addRow('実質利回り', pct(real), real >= idR ? 'green' : real < idR*0.5 ? 'red' : '');
-      html += addRow('返済後利回り', pct(after), after >= idA ? 'green' : after < idA*0.5 ? 'red' : '');
-      html += addRow('投資利回り(CCR)', pct(ccr), ccr >= idC ? 'green' : ccr < idC*0.5 ? 'red' : '');
+      html += addRow('年間手取り',     yen(netInc.toFixed(0)));
+      html += addRow('表面利回り',     pct(surface), surface>=idS?'green':surface<idS*0.5?'red':'');
+      html += addRow('実質利回り',     pct(real),    real>=idR?'green':real<idR*0.5?'red':'');
+      html += addRow('返済後利回り',   pct(after),   after>=idA?'green':after<idA*0.5?'red':'');
+      html += addRow('投資利回り(CCR)',pct(ccr),    ccr>=idC?'green':ccr<idC*0.5?'red':'');
       if (toggleBox.checked) {
-        const RP = num('routePrice'), LA = num('landArea'), landVal = RP * LA;
+        const RP = num('routePrice'), LA = num('landArea'), landVal = RP*LA;
         html += addRow('土地値(路線価)', yen(landVal.toFixed(0)));
         let rem = 0;
         for (let m = 0; m <= nMonths; m++) {
-          const bal = m ? B * Math.pow(1+i,m) - A * ((Math.pow(1+i,m)-1)/i) : B;
+          const bal = m ? B*Math.pow(1+i,m) - A*((Math.pow(1+i,m)-1)/i) : B;
           if (bal <= landVal) { rem = m; break; }
         }
-        const yrs = Math.floor(rem/12), mos = rem % 12;
+        const yrs = Math.floor(rem/12), mos = rem%12;
         html += addRow('残債≦土地値まで', `${yrs}年${mos}ヶ月`);
       }
       document.getElementById('results').innerHTML = html;
     }
+    // 初期表示
     updateDisplays();
   </script>
 </body>
