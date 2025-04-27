@@ -1,244 +1,248 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>収支計算</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
-    body { font-family: sans-serif; margin: 10px; background: #f5f5f5; display: flex; flex-direction: column; min-height: 100vh; }
-    h1 { text-align: center; font-size: 20px; margin-bottom: 8px; }
-    .description { text-align: center; font-size:14px; margin-bottom:12px; }
-    .row { display: flex; align-items: center; gap: 6px; margin: 4px 0; font-size: 14px; }
-    .row label { width: 140px; white-space: nowrap; }
-    .row input[type="tel"] { padding: 2px 4px; text-align: right; font-size: 14px; }
-    #interestInt, #interestFrac { width: 50px; }
-    .row input.many { width: 100px; }
-    .clear-btn { padding: 0 6px; font-size: 14px; cursor: pointer; }
-    .jpn-large { margin-left: 6px; color: #555; font-size: 13px; white-space: nowrap; }
-    .ideal-inline { display: flex; align-items: center; gap: 4px; margin-left: auto; }
-    .ideal-inline label { font-size: 12px; color: #007bff; white-space: nowrap; }
-    .ideal-inline input { width: 60px; text-align: right; padding: 2px; font-size: 12px; }
-    #calc { width: 100%; padding: 8px; font-size: 16px; margin: 10px 0; background: #0d6efd; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
-    #results { background: #fff; padding: 10px; border-radius: 6px; font-size: 14px; display: grid; grid-template-columns: 1fr max-content; gap: 6px 14px; max-width: 420px; margin: 12px auto; }
-    #results .label { text-align: right; font-weight: 600; color: #333; }
-    #results .value { text-align: right; font-family: monospace; min-width: 140px; }
+    body {
+      font-family: sans-serif;
+      margin: 10px;
+      background: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    h1 {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    .description {
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    #app {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start; /* 左寄せ */
+      position: relative;
+    }
+    .row label {
+      width: 140px;
+      text-align: left;
+      flex-shrink: 0;
+      color: #000;
+    }
+    .row.optional label {
+      color: #007bff;
+    }
+    .row input[type="tel"], .row input.many {
+      width: 120px;
+      padding: 4px;
+      font-size: 14px;
+      text-align: right;
+      margin-right: 6px;
+      flex-shrink: 0;
+    }
+    #interestInt, #interestFrac {
+      width: 60px;
+      padding: 4px;
+      font-size: 14px;
+      text-align: right;
+      margin-right: 2px;
+      flex-shrink: 0;
+    }
+    .clear-btn {
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 6px;
+      flex-shrink: 0;
+    }
+    .jpn-large {
+      color: #555;
+      font-size: 13px;
+      white-space: nowrap;
+      margin-right: 6px;
+      flex-shrink: 0;
+    }
+    .ideal-inline {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto; /* 右端へ自動で寄せる */
+      position: static; /* 絶対配置を解除 */
+    }
+    .ideal-inline label {
+      font-size: 12px;
+      color: #007bff;
+      white-space: nowrap;
+    }
+    .ideal-inline input {
+      width: 60px;
+      padding: 2px;
+      font-size: 12px;
+      text-align: right;
+    }
+    #calc {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      background: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    #results {
+      background: white;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      display: grid;
+      grid-template-columns: 1fr max-content;
+      gap: 6px 14px;
+      margin-top: 12px;
+    }
+    #results .label {
+      text-align: right;
+      font-weight: 600;
+      color: #333;
+    }
+    #results .value {
+      text-align: right;
+      font-family: monospace;
+    }
     #results .green { color: #0d6efd; }
     #results .red   { color: #dc3545; }
-    .optional { display: none; color: #007bff; }
-    footer { text-align: center; font-size: 12px; color: #666; margin-top: auto; padding-top: 8px; }
+    .optional { display: none; }
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      margin-top: auto;
+      padding-top: 8px;
+    }
   </style>
 </head>
 <body>
   <h1>収支計算</h1>
   <p class="description">不動産の収益性を<strong>ざっくり素早く</strong>確認</p>
-
   <div id="app">
     <div class="row">
       <label for="toggleOptions">詳細オプション</label>
-      <input type="checkbox" id="toggleOptions" />
+      <input type="checkbox" id="toggleOptions">
     </div>
-    
     <div class="row">
       <label for="propertyPrice">物件価格（万円）</label>
-      <input type="tel" id="propertyPrice" class="many" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
+      <input type="tel" id="propertyPrice" class="many" inputmode="decimal">
       <button class="clear-btn" onclick="clearInput('propertyPrice')">×</button>
       <span id="largePropertyPrice" class="jpn-large"></span>
       <div class="ideal-inline optional">
         <label for="idealSurface">理想 表面利回り%</label>
-        <input type="tel" id="idealSurface" value="12" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
+        <input type="tel" id="idealSurface" value="12" inputmode="decimal">
       </div>
     </div>
-
     <div class="row">
       <label for="annualIncome">年間想定年収（万円）</label>
-      <input type="tel" id="annualIncome" class="many" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
+      <input type="tel" id="annualIncome" class="many" inputmode="decimal">
       <button class="clear-btn" onclick="clearInput('annualIncome')">×</button>
       <span id="largeAnnualIncome" class="jpn-large"></span>
       <div class="ideal-inline optional">
         <label for="idealReal">理想 実質利回り%</label>
-        <input type="tel" id="idealReal" value="10" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
+        <input type="tel" id="idealReal" value="10" inputmode="decimal">
       </div>
     </div>
-
     <div class="row">
       <label for="ownCapital">自己資金（万円）</label>
-      <input type="tel" id="ownCapital" class="many" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
+      <input type="tel" id="ownCapital" class="many" inputmode="decimal">
       <button class="clear-btn" onclick="clearInput('ownCapital')">×</button>
       <span id="largeOwnCapital" class="jpn-large"></span>
       <div class="ideal-inline optional">
         <label for="idealAfter">理想 返済後利回り%</label>
-        <input type="tel" id="idealAfter" value="3" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
+        <input type="tel" id="idealAfter" value="3" inputmode="decimal">
       </div>
     </div>
-
     <div class="row">
       <label>借入金額（円）</label>
       <span id="loanAmount"></span>
       <span id="largeLoanAmount" class="jpn-large"></span>
       <div class="ideal-inline optional">
         <label for="idealCCR">理想 投資利回り(CCR)%</label>
-        <input type="tel" id="idealCCR" value="30" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
+        <input type="tel" id="idealCCR" value="30" inputmode="decimal">
       </div>
     </div>
-
     <div class="row">
       <label for="vacancyRate">空室率（%）</label>
-      <input type="tel" id="vacancyRate" value="10" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
+      <input type="tel" id="vacancyRate" value="10" inputmode="decimal">
       <button class="clear-btn" onclick="clearInput('vacancyRate')">×</button>
     </div>
-
     <div class="row">
       <label for="expensesRate">諸経費率（%）</label>
-      <input type="tel" id="expensesRate" value="15" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" />
+      <input type="tel" id="expensesRate" value="15" inputmode="decimal">
       <button class="clear-btn" onclick="clearInput('expensesRate')">×</button>
     </div>
-
     <div class="row">
       <label for="loanPeriod">借入期間（年）</label>
-      <input type="tel" id="loanPeriod" value="15" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="loanPeriod" value="15" inputmode="numeric">
       <button class="clear-btn" onclick="clearInput('loanPeriod')">×</button>
     </div>
-
     <div class="row">
       <label for="interestInt">借入金利（%）</label>
-      <input type="tel" id="interestInt" placeholder="整数部" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="interestInt" placeholder="整数部" inputmode="numeric">
       <span>.</span>
-      <input type="tel" id="interestFrac" placeholder="小数部" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="interestFrac" placeholder="小数部" inputmode="numeric">
       <button class="clear-btn" onclick="clearInput('interestInt');clearInput('interestFrac')">×</button>
     </div>
-
     <div class="row optional">
       <label for="routePrice">路線価（円）</label>
-      <input type="tel" id="routePrice" value="30000" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="routePrice" value="30000" inputmode="numeric">
       <button class="clear-btn" onclick="clearInput('routePrice')">×</button>
     </div>
-
     <div class="row optional">
       <label for="landArea">土地面積（㎡）</label>
-      <input type="tel" id="landArea" value="500" inputmode="numeric" pattern="[0-9]*" />
+      <input type="tel" id="landArea" value="500" inputmode="numeric">
       <button class="clear-btn" onclick="clearInput('landArea')">×</button>
     </div>
-
     <button id="calc" onclick="calculate()">↓計算↓</button>
     <div id="results"></div>
   </div>
-
   <footer>&copy; cormo-design</footer>
-
   <script>
-    const fields=[
-      'propertyPrice','annualIncome','ownCapital',
-      'vacancyRate','expensesRate','loanPeriod',
-      'routePrice','landArea',
-      'idealSurface','idealReal','idealAfter','idealCCR',
-      'interestInt','interestFrac'
-    ];
+    const fields=['propertyPrice','annualIncome','ownCapital','vacancyRate','expensesRate','loanPeriod','routePrice','landArea','idealSurface','idealReal','idealAfter','idealCCR','interestInt','interestFrac'];
     const toggleBox=document.getElementById('toggleOptions');
-    function toggleOptional(){
-      document.querySelectorAll('.optional').forEach(el=>el.style.display = toggleBox.checked ? 'flex' : 'none');
-    }
-    toggleBox.addEventListener('change',()=>{ toggleOptional(); calculate(); });
+    function toggleOptional(){ document.querySelectorAll('.optional').forEach(el=>el.style.display=toggleBox.checked?'flex':'none'); }
+    toggleBox.addEventListener('change',()=>{toggleOptional();calculate();});
     toggleOptional();
-
-    fields.forEach(id=>{
-      const el=document.getElementById(id);
-      if(el) el.addEventListener('blur', updateDisplays);
-    });
-
-    function clearInput(id){ document.getElementById(id).value=''; updateDisplays(); }
-    function rawNum(id){ return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0; }
-    function numYen(id){ return rawNum(id)*10000; }
-    function fmt(id){
-      const el=document.getElementById(id);
-      if(!el) return;
-      let v = el.value.replace(/,/g,'').replace(/[^0-9.]/g,'');
-      if(v){
-        let p = v.split('.');
-        p[0] = parseInt(p[0],10).toLocaleString();
-        el.value = p.join('.');
-      }
+    fields.forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('blur',updateDisplays);});
+    function clearInput(id){document.getElementById(id).value='';updateDisplays();}
+    function rawNum(id){return parseFloat((document.getElementById(id).value||'').replace(/,/g,''))||0;}
+    function numYen(id){return rawNum(id)*10000;}
+    function fmt(id){const el=document.getElementById(id);if(!el) return;let v=el.value.replace(/,/g,'').replace(/[^0-9.]/g,'');if(v){let p=v.split('.');p[0]=parseInt(p[0],10).toLocaleString();el.value=p.join('.');}}
+    function big(n){if(n<=0) return '';return(Math.floor(n/1e8)?Math.floor(n/1e8)+'億':'')+(Math.floor((n%1e8)/1e4)?Math.floor((n%1e8)/1e4).toLocaleString()+'万円':'');}
+    function getInterestRate(){const i=rawNum('interestInt'),f=rawNum('interestFrac');return parseFloat(i+'.'+f)||0;}
+    function updateDisplays(){['propertyPrice','annualIncome','ownCapital','vacancyRate','expensesRate','loanPeriod','routePrice','landArea','idealSurface','idealReal','idealAfter','idealCCR'].forEach(fmt);
+      document.getElementById('largePropertyPrice').textContent=big(numYen('propertyPrice'));
+      document.getElementById('largeAnnualIncome').textContent=big(numYen('annualIncome'));
+      document.getElementById('largeOwnCapital').textContent=big(numYen('ownCapital'));
+      const loan=numYen('propertyPrice')-numYen('ownCapital');document.getElementById('loanAmount').textContent=loan?yen(loan.toFixed(0)):'';
+      document.getElementById('largeLoanAmount').textContent=big(loan);
     }
-    function big(n){
-      if(n<=0) return '';
-      return (Math.floor(n/1e8)?Math.floor(n/1e8)+'億':'')
-           + (Math.floor((n%1e8)/1e4)?Math.floor((n%1e8)/1e4).toLocaleString()+'万円':'');
-    }
-    function getInterestRate(){
-      const i = rawNum('interestInt');
-      const f = rawNum('interestFrac');
-      return parseFloat(i + '.' + f) || 0;
-    }
-    function updateDisplays(){
-      ['propertyPrice','annualIncome','ownCapital',
-       'vacancyRate','expensesRate','loanPeriod',
-       'routePrice','landArea',
-       'idealSurface','idealReal','idealAfter','idealCCR'].forEach(fmt);
-      document.getElementById('largePropertyPrice').textContent = big(numYen('propertyPrice'));
-      document.getElementById('largeAnnualIncome').textContent = big(numYen('annualIncome'));
-      document.getElementById('largeOwnCapital').textContent = big(numYen('ownCapital'));
-      const loan = numYen('propertyPrice') - numYen('ownCapital');
-      document.getElementById('loanAmount').textContent = loan ? yen(loan.toFixed(0)) : '';
-      document.getElementById('largeLoanAmount').textContent = big(loan);
-    }
-    const yen = n => Number(n).toLocaleString('ja-JP',{style:'currency',currency:'JPY'});
-    const pct = x => x.toLocaleString('ja-JP',{minimumFractionDigits:2,maximumFractionDigits:2}) + '%';
-    function addRow(label,val,cls=''){ return `<span class="label">${label}</span><span class="value ${cls}">${val}`; }
-    function calculate(){
-      updateDisplays();
-      const P = numYen('propertyPrice');
-      const Y = numYen('annualIncome');
-      const C = numYen('ownCapital');
-      if(!P || !Y){ document.getElementById('results').innerHTML = ''; return; }
-      const V = rawNum('vacancyRate')/100;
-      const E = rawNum('expensesRate')/100;
-      const T = rawNum('loanPeriod');
-      const R = getInterestRate()/100;
-      const B = P - C;
-      const n = T*12;
-      const i = R/12;
-      const A = (n && i)? B*i*Math.pow(1+i,n)/(Math.pow(1+i,n)-1) : 0;
-      const annualRep = A*12;
-      const totalRep = A*n;
-      const netRent = Y*(1-V);
-      const expenses = netRent*E;
-      const netInc = netRent - expenses - annualRep;
-      const surface = Y/P*100;
-      const real = (netRent-expenses)/P*100;
-      const after = netInc/P*100;
-      const ccr = C? netInc/C*100 : 0;
-      const idS = rawNum('idealSurface');
-      const idR = rawNum('idealReal');
-      const idA = rawNum('idealAfter');
-      const idC = rawNum('idealCCR');
-      let html = '';
-      html += addRow('返済額（月額）', yen(A.toFixed(0))) + '</span>';
-      html += addRow('返済額（年額）', yen(annualRep.toFixed(0))) + '</span>';
-      html += addRow('返済総額', yen(totalRep.toFixed(0))) + '</span>';
-      html += addRow('家賃収入（年額）', yen(netRent.toFixed(0))) + '</span>';
-      html += addRow('諸経費（年額）', yen(expenses.toFixed(0))) + '</span>';
-      html += addRow('年間手取り', yen(netInc.toFixed(0))) + '</span>';
-      html += addRow('表面利回り', pct(surface), surface>=idS?'green':surface<idS*0.5?'red':'') + '</span>';
-      html += addRow('実質利回り', pct(real), real>=idR?'green':real<idR*0.5?'red':'') + '</span>';
-      html += addRow('返済後利回り', pct(after), after>=idA?'green':after<idA*0.5?'red':'') + '</span>';
-      html += addRow('投資利回り(CCR)', pct(ccr), ccr>=idC?'green':ccr<idC*0.5?'red':'') + '</span>';
-      if(toggleBox.checked){
-        const RP = rawNum('routePrice')*10000;
-        const LA = rawNum('landArea');
-        const landVal = RP*LA;
-        html += addRow('土地値(路線価)', yen(landVal.toFixed(0))) + '</span>';
-        let rem = 0;
-        for(let m=0; m<=n; m++){
-          const bal = m? B*Math.pow(1+i,m)-A*((Math.pow(1+i,m)-1)/i):B;
-          if(bal <= landVal){ rem = m; break; }
-        }
-        const yrs = Math.floor(rem/12);
-        const mos = rem%12;
-        html += addRow('残債≦土地値まで', `${yrs}年${mos}ヶ月`) + '</span>';
-      }
-      document.getElementById('results').innerHTML = html;
-    }
-    // 初期表示
-    updateDisplays();
+    const yen=n=>Number(n).toLocaleString('ja-JP',{style:'currency',currency:'JPY'});
+    const pct=x=>x.toLocaleString('ja-JP',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
+    function addRow(label,val,cls=''){return`<span class="label">${label}</span><span class="value ${cls}">${val}</span>`;}
+    function calculate(){updateDisplays();const P=numYen('propertyPrice'),Y=numYen('annualIncome'),C=numYen('ownCapital');if(!P||!Y){document.getElementById('results').innerHTML='';return;}const V=rawNum('vacancyRate')/100,E=rawNum('expensesRate')/100,T=rawNum('loanPeriod'),R=getInterestRate()/100;const B=P-C,n=T*12,i=R/12;const A=(n&&i)?B*i*Math.pow(1+i,n)/(Math.pow(1+i,n)-1):0;const annualRep=A*12,totalRep=A*n;const netRent=Y*(1-V),expenses=netRent*E,netInc=netRent-expenses-annualRep;const surface=Y/P*100,real=(netRent-expenses)/P*100,after=netInc/P*100,ccr=C?netInc/C*100:0;const idS=rawNum('idealSurface'),idR=rawNum('idealReal'),idA=rawNum('idealAfter'),idC=rawNum('idealCCR');let html='';html+=addRow('返済額（月額）',yen(A.toFixed(0)))+'\n';html+=addRow('返済額（年額）',yen(annualRep.toFixed(0)))+'\n';html+=addRow('返済総額',yen(totalRep.toFixed(0)))+'\n';html+=addRow('家賃収入（年額）',yen(netRent.toFixed(0)))+'\n';html+=addRow('諸経費（年額）',yen(expenses.toFixed(0)))+'\n';html+=addRow('年間手取り',yen(netInc.toFixed(0)))+'\n';html+=addRow('表面利回り',pct(surface),surface>=idS?'green':surface<idS*0.5?'red':'')+'\n';html+=addRow('実質利回り',pct(real),real>=idR?'green':real<idR*0.5?'red':'')+'\n';html+=addRow('返済後利回り',pct(after),after>=idA?'green':after<idA*0.5?'red':'')+'\n';html+=addRow('投資利回り(CCR)',pct(ccr),ccr>=idC?'green':ccr<idC*0.5?'red':'')+'\n';if(toggleBox.checked){const RP=rawNum('routePrice'),LA=rawNum('landArea'),landVal=RP*LA;html+=addRow('土地値(路線価)',yen(landVal.toFixed(0)))+'\n';let rem=0;for(let m=0;m<=n;m++){const bal=m?B*Math.pow(1+i,m)-A*((Math.pow(1+i,m)-1)/i):B;if(bal<=landVal){rem=m;break;}}const yrs=Math.floor(rem/12),mos=rem%12;html+=addRow('残債≦土地値まで',`${yrs}年${mos}ヶ月`);}document.getElementById('results').innerHTML=html;}updateDisplays();
   </script>
 </body>
 </html>
